@@ -1,0 +1,102 @@
+{
+    "name": "UserInputConfig",
+    "maps": [
+        {
+            "name": "UnitManagement",
+            "id": "4db916a1-3706-440d-829e-214cfc3481c9",
+            "actions": [
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "3f1a8c64-a2bc-4174-ac37-1bb43a1b0de5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlanTargets",
+                    "type": "Button",
+                    "id": "0ebe645f-acd1-4b93-a34a-23a6a59d072b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5c18a164-8257-47dd-b6f6-e3ecb515f73c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9b60f0f3-68cd-40f3-9094-ae6fec72fd73",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlanTargets",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "GameScene",
+            "id": "c6f5e61b-559e-4b56-8ef8-be803cd81f9a",
+            "actions": [
+                {
+                    "name": "ContinueOrReset",
+                    "type": "Button",
+                    "id": "69443782-d7d8-4f0d-84be-4d8c20894c6e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "EscapeMenu",
+                    "type": "Button",
+                    "id": "d960d35e-78b3-45af-a101-6c51e491e054",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "792bde46-1792-488c-bcff-e465d7260430",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ContinueOrReset",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9731b29-95eb-4603-938b-66921ef510d9",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EscapeMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

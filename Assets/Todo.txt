@@ -1,0 +1,3 @@
+- show tnt range
+- show container interaction range (or change way of interaction with it)
+- cables are blocking containers

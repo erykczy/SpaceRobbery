@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 6707ba31819cf8e44af320d3d3952f97
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - TextureDownLeft: {fileID: -90752992, guid: 0695110625f79074895a99b7b2feac64, type: 3}
+  - TextureDownRight: {fileID: 2043607667, guid: 0695110625f79074895a99b7b2feac64, type: 3}
+  - TextureDownUp: {fileID: -272287855, guid: 0695110625f79074895a99b7b2feac64, type: 3}
+  - TextureLeftRight: {fileID: -1284083133, guid: 0695110625f79074895a99b7b2feac64, type: 3}
+  - TextureUpLeft: {fileID: 483699013, guid: 0695110625f79074895a99b7b2feac64, type: 3}
+  - TextureUpRight: {fileID: 797840300, guid: 0695110625f79074895a99b7b2feac64, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
