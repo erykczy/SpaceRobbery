@@ -30,7 +30,6 @@ public class Cable : MonoBehaviour
         OutputDevice = FindOutputDevice();
         if (!SignalForwardingTimeOfWholeWire.HasValue)
             throw new System.Exception("Signal forwarding time of the whole wire is null!");
-            //SignalForwardingTimeOfWholeWire = FindSignalForwardingTimeOfWholeWire();
     }
 
     private void Update()

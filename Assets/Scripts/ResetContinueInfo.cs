@@ -37,8 +37,10 @@ public class ResetContinueInfo : MonoBehaviour
     private void Update()
     {
         Fill.fillAmount = GameSceneManager.ResetProgress / GameSceneManager.SpacebarHoldTime;
-        if (GameJudge.CurrentGameState != GameState.Running) return;
-        SetActive(GameSceneManager.ResetInProgress);
+        if (GameSceneManager.ResetInProgress)
+            SetActive(true);
+        else if(GameJudge.CurrentGameState == GameState.Running)
+            SetActive(false);
     }
 
     private void SetActive(bool value)
