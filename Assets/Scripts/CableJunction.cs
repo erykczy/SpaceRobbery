@@ -18,13 +18,13 @@ public class CableJunction : MonoBehaviour
         foreach (var device in Device.AdjacentDevices)
         {
             if(device == null) continue;
-            if (device.TryGetComponent<Cable>(out var cable))
+            if (device.TryGetComponent<WireSegment>(out var cable))
             {
                 if (cable.InputDevice != Device)
                     continue;
             }
             if (Device.Activators.Contains(device)) continue;
-            Device.ActivateAnother(device);
+            device.Activate(Device);
         }
     }
 
@@ -33,7 +33,7 @@ public class CableJunction : MonoBehaviour
         foreach (var device in Device.AdjacentDevices)
         {
             if (device == null) continue;
-            Device.DeactivateAnother(device);
+            device.Deactivate(Device);
         }
     }
 }

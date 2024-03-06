@@ -14,13 +14,13 @@ public class CableRenderer : MonoBehaviour
     public Sprite TextureUpLeft;
     public Sprite TextureUpRight;
     public SpriteRenderer SpriteRenderer { get; private set; }
-    public Cable Cable { get; private set; }
+    public WireSegment Cable { get; private set; }
     private RestrainedLineRenderer FillLine;
 
     private void Awake()
     {
         SpriteRenderer = GetComponent<SpriteRenderer>();
-        Cable = GetComponentInParent<Cable>();
+        Cable = GetComponentInParent<WireSegment>();
         FillLine = GetComponentInChildren<RestrainedLineRenderer>();
     }
 
@@ -28,7 +28,7 @@ public class CableRenderer : MonoBehaviour
     {
 #if UNITY_EDITOR
         SpriteRenderer = GetComponent<SpriteRenderer>();
-        Cable = GetComponentInParent<Cable>();
+        Cable = GetComponentInParent<WireSegment>();
         FillLine = GetComponentInChildren<RestrainedLineRenderer>();
 
         if (Cable.InputDirection == DirectionMath.Direction.Up)
@@ -109,7 +109,7 @@ public class CableRenderer : MonoBehaviour
 
         if (!Application.isPlaying) return;
 
-        var progress = Cable.SignalForwardingTime == 0f ? (Cable.Device.Activated ? 1f : 0f) : (Cable.SignalForwardingProgress / Cable.SignalForwardingTime);
+        var progress = Cable.SignalForwardingTime == 0f ? (Cable.ThisDevice.Activated ? 1f : 0f) : (Cable.SignalForwardingProgress / Cable.SignalForwardingTime);
         Vector2 firstPoint = CableSegmentLength / 2f * DirectionMath.DirectionToVector(Cable.InputDirection);
         Vector2 lastPoint = CableSegmentLength / 2f * DirectionMath.DirectionToVector(Cable.OutputDirection);
 

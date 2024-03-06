@@ -1,27 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Cable : MonoBehaviour
+public class WireSegment : MonoBehaviour
 {
     public DirectionMath.Direction InputDirection;
     public DirectionMath.Direction OutputDirection;
     public float SignalForwardingTime { get; set; }
     public float? SignalForwardingTimeOfWholeWire { get; set; }
-    public Device Device { get; private set; }
+    public Device ThisDevice { get; private set; }
     public Tile Tile { get; private set; }
     public Device InputDevice { get; private set; }
     public Device OutputDevice { get; private set; }
-    public float SignalForwardingProgress { get; private set; } = 0f;
-    private bool singalForwardingInProgress = false;
+    public List<Signal> Signals { get; private set; }
 
     private void Awake()
     {
-        Device = GetComponent<Device>();
+        ThisDevice = GetComponent<Device>();
         Tile = GetComponent<Tile>();
-        Device.WhenActivated.AddListener(OnActivated);
-        Device.WhenDeactivated.AddListener(OnDeactivated);
+        ThisDevice.WhenActivated.AddListener(OnActivated);
+        ThisDevice.WhenDeactivated.AddListener(OnDeactivated);
     }
 
     private void Start()
@@ -34,33 +34,36 @@ public class Cable : MonoBehaviour
 
     private void Update()
     {
-        if(singalForwardingInProgress)
+        for(int i = Signals.Count - 1; i >= 0; i--)
         {
-            SignalForwardingProgress += Time.deltaTime;
+            var signal = Signals[i];
+            signal.End += Time.deltaTime / SignalForwardingTime;
+            if (signal.DetachedFromInput)
+                signal.Start += Time.deltaTime / SignalForwardingTime;
 
-            if(SignalForwardingProgress >= SignalForwardingTime)
+            if(signal.Start >= signal.End)
             {
-                singalForwardingInProgress = false;
-                SignalForwardingProgress = SignalForwardingTime;
+                Signals.RemoveAt(i);
+
                 if (OutputDevice != null)
-                    Device.ActivateAnother(OutputDevice);
+                    OutputDevice.Deactivate(ThisDevice);
+
+                continue;
+            }
+            if(signal.End >= 1)
+            {
+                signal.End = 1f;
+                if(OutputDevice != null)
+                    OutputDevice.Activate(ThisDevice);
             }
         }
     }
 
-    private void OnActivated() => singalForwardingInProgress = true;
+    private void OnActivated() => Signals.Add(new Signal() { DetachedFromInput = false });
 
     private void OnDeactivated()
     {
-        //singalForwardingInProgress = false;
-        //SignalForwardingProgress = 0f;
-        //ForwardDeactivation();
-    }
-
-    private void ForwardDeactivation()
-    {
-        if (OutputDevice == null) return;
-        Device.DeactivateAnother(OutputDevice);
+        Signals.Last().DetachedFromInput = true;
     }
 
     private Device FindInputDevice()
@@ -84,28 +87,4 @@ public class Cable : MonoBehaviour
         return false;
     }
 
-    /*
-    private float FindSignalForwardingTimeOfWholeWire()
-    {
-        float time = 0f;
-
-        // pre
-        var checkedDevice = InputDevice;
-        while(checkedDevice.TryGetComponent<Cable>(out var cable))
-        {
-            time += cable.SignalForwardingTime;
-            checkedDevice = cable.InputDevice;
-        }
-
-        // post
-        checkedDevice = OutputDevice;
-        while (checkedDevice.TryGetComponent<Cable>(out var cable))
-        {
-            time += cable.SignalForwardingTime;
-            checkedDevice = cable.OutputDevice;
-        }
-
-        return time;
-    }
-    */
 }

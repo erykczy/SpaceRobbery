@@ -28,7 +28,6 @@ public class Device : MonoBehaviour
     private void OnDestroy()
     {
         DeactivateOutputDevices();
-
     }
 
     public void ActivateOutputDevices()
@@ -36,7 +35,7 @@ public class Device : MonoBehaviour
         foreach (var device in OutputDevices)
         {
             if (device == null) continue;
-            ActivateAnother(device);
+            device.Activate(this);
         }
     }
 
@@ -45,21 +44,11 @@ public class Device : MonoBehaviour
         foreach (var device in OutputDevices)
         {
             if (device == null) continue;
-            DeactivateAnother(device);
+            device.Deactivate(this);
         }
     }
-
-    public void DeactivateAnother(Device device)
-    {
-        device.DeativateSelf(this);
-    }
-
-    public void ActivateAnother(Device device)
-    {
-        device.ActivateSelf(this);
-    }
-
-    public void DeativateSelf(Device deactivator)
+    
+    public void Deactivate(Device deactivator)
     {
         if (!Activators.Contains(deactivator)) return;
         Activators.Remove(deactivator);
@@ -69,7 +58,7 @@ public class Device : MonoBehaviour
         if(!Activated) WhenDeactivated.Invoke();
     }
 
-    public void ActivateSelf(Device activator)
+    public void Activate(Device activator)
     {
         if (Activators.Contains(activator)) return;
         Activators.Add(activator);
@@ -87,7 +76,7 @@ public class Device : MonoBehaviour
         foreach (var device in AdjacentDevices)
         {
             if(device == null) continue;
-            if(device.TryGetComponent<Cable>(out var cable))
+            if(device.TryGetComponent<WireSegment>(out var cable))
             {
                 if(cable.InputDevice == this)
                     list.Add(device);

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CableSkeleton : MonoBehaviour
+public class Wire : MonoBehaviour
 {
     public float Time;
 
     private void Awake()
     {
-        var cables = GetComponentsInChildren<Cable>();
+        var cables = GetComponentsInChildren<WireSegment>();
         var timeForEach = Time / cables.Length;
         foreach (var cable in cables)
         {

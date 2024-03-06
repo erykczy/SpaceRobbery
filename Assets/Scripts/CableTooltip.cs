@@ -26,7 +26,7 @@ public class CableTooltip : MonoBehaviour
     {
         var collider = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), TilesLayer);
         if (collider == null) return null;
-        var cable = collider.GetComponentInParent<Cable>();
+        var cable = collider.GetComponentInParent<WireSegment>();
         if (cable == null) return null;
         return cable.SignalForwardingTimeOfWholeWire;
     }
