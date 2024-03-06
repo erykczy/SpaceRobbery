@@ -14,7 +14,7 @@ public class WireSegment : MonoBehaviour
     public Tile Tile { get; private set; }
     public Device InputDevice { get; private set; }
     public Device OutputDevice { get; private set; }
-    public List<Signal> Signals { get; private set; }
+    public List<Signal> Signals { get; private set; } = new();
 
     private void Awake()
     {

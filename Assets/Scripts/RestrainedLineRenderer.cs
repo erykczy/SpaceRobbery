@@ -5,8 +5,8 @@ using UnityEngine;
 public class RestrainedLineRenderer : MonoBehaviour
 {
     public List<Vector3> RequestedPoints = new();
-    private float _filament = 0f;
-    public float Filament { get => _filament; set => SetFill(value); }
+    public float Min;
+    public float Max;
     public LineRenderer LineRenderer { get; private set; }
 
     private void Awake()
@@ -14,38 +14,38 @@ public class RestrainedLineRenderer : MonoBehaviour
         LineRenderer = GetComponent<LineRenderer>();
     }
 
-    private void SetFill(float newValue)
-    {
-        _filament = newValue;
-        UpdateRendering();
-    }
-
-    private void UpdateRendering()
+    public void UpdateRendering()
     {
         if (RequestedPoints.Count < 2) return;
         if (LineRenderer == null) LineRenderer = GetComponent<LineRenderer>();
-        var newPoints = new List<Vector3>() { RequestedPoints[0] };
+        var newPoints = new List<Vector3>();
 
-        var filamentLeft = Filament;
+        float totalDistance = 0f;
         Vector3 prevPoint = RequestedPoints[0];
         for(int i = 1; i < RequestedPoints.Count; i++)
         {
             Vector3 currentPoint = RequestedPoints[i];
             var distanceVec = currentPoint - prevPoint;
             var distance = distanceVec.magnitude;
-            if(filamentLeft >= distance)
+
+            if (Min >= totalDistance && Min <= totalDistance + distance)
             {
-                filamentLeft -= distance;
-                newPoints.Add(currentPoint);
-                prevPoint = currentPoint;
+                var d = Min - totalDistance;
+                var delta = distanceVec.normalized * d;
+                newPoints.Add(prevPoint + delta);
                 continue;
             }
-            else
+            if(totalDistance + distance > Min && totalDistance + distance < Max)
             {
-                var t = filamentLeft / distance;
-                var delta = distanceVec * t;
+                newPoints.Add(currentPoint);
+                continue;
+            }
+            if(totalDistance + distance >= Max)
+            {
+                var d = Max - totalDistance;
+                var delta = distanceVec.normalized * d;
                 newPoints.Add(prevPoint + delta);
-                break;
+                continue;
             }
         }
         LineRenderer.positionCount = newPoints.Count;
