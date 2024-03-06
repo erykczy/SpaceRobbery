@@ -24,7 +24,7 @@ public class InteractableTile : MonoBehaviour
 
     private void Interact()
     {
-        Device.ActivateOutputDevices();
+        Device.ActivateOutput();
         WhenInteracted.Invoke();
         if (CanBeInteractedOnlyOnce) Destroy(this);
     }

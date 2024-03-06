@@ -859,6 +859,10 @@ PrefabInstance:
       propertyPath: Time
       value: 0.6
       objectReference: {fileID: 0}
+    - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
+      propertyPath: SignalTime
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 9109202007099124013, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -930,6 +934,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
       propertyPath: Time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
+      propertyPath: SignalTime
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9109202007099124013, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
@@ -1006,6 +1014,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
       propertyPath: Time
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
+      propertyPath: SignalTime
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9109202007099124013, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
@@ -1085,6 +1097,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
       propertyPath: Time
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
+      propertyPath: SignalTime
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 9109202007099124013, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
@@ -2042,6 +2058,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
       propertyPath: Time
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
+      propertyPath: SignalTime
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9109202007099124013, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
@@ -3005,6 +3025,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
       propertyPath: Time
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533131728412308222, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}
+      propertyPath: SignalTime
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 9109202007099124013, guid: a4a9a63e229a1404f861797deb2bcd9a, type: 3}

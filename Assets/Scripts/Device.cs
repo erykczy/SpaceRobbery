@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Device : MonoBehaviour
+public class Device : MonoBehaviour, IActivator
 {
-    public UnityEvent<Device> WhenActivatorAdded = new();
-    public UnityEvent<Device> WhenActivatorRemoved = new();
+    public UnityEvent<IActivator> WhenActivatorAdded = new();
+    public UnityEvent<IActivator> WhenActivatorRemoved = new();
     public UnityEvent WhenActivated = new();
     public UnityEvent WhenDeactivated = new();
     public bool Activated { get; private set; } = false;
-    public List<Device> Activators { get; private set; } = new();
-    public List<Device> OutputDevices { get; private set; } = new();
-    public List<Device> AdjacentDevices { get; private set; } = new();
+    public bool OutputActivated { get; private set; } = false;
+    public List<IActivator> Activators { get; private set; } = new();
+    public List<Wire> OutputWires { get; private set; } = new();
     public Tile Tile { get; private set; }
 
     private void Awake()
@@ -21,45 +21,47 @@ public class Device : MonoBehaviour
 
     private void Start()
     {
-        AdjacentDevices = FindAdjacentDevices();
-        OutputDevices = FindConnectedDevices();
+        OutputWires = FindOutputWires();
     }
 
     private void OnDestroy()
     {
-        DeactivateOutputDevices();
-
+        DeactivateOutput();
     }
 
-    public void ActivateOutputDevices()
+    public void ActivateOutput()
     {
-        foreach (var device in OutputDevices)
+        if (OutputActivated) return;
+        OutputActivated = true;
+
+        foreach (var wire in OutputWires)
         {
-            if (device == null) continue;
-            ActivateAnother(device);
+            if(wire == null)
+            {
+                OutputWires.Remove(wire);
+                continue;
+            }
+            wire.StartSignal(this);
         }
     }
 
-    public void DeactivateOutputDevices()
+    public void DeactivateOutput()
     {
-        foreach (var device in OutputDevices)
+        if (!OutputActivated) return;
+        OutputActivated = false;
+
+        foreach (var wire in OutputWires)
         {
-            if (device == null) continue;
-            DeactivateAnother(device);
+            if (wire == null)
+            {
+                OutputWires.Remove(wire);
+                continue;
+            }
+            wire.DetachSignal(this);
         }
     }
 
-    public void DeactivateAnother(Device device)
-    {
-        device.DeativateSelf(this);
-    }
-
-    public void ActivateAnother(Device device)
-    {
-        device.ActivateSelf(this);
-    }
-
-    public void DeativateSelf(Device deactivator)
+    public void Deactivate(IActivator deactivator)
     {
         if (!Activators.Contains(deactivator)) return;
         Activators.Remove(deactivator);
@@ -69,7 +71,7 @@ public class Device : MonoBehaviour
         if(!Activated) WhenDeactivated.Invoke();
     }
 
-    public void ActivateSelf(Device activator)
+    public void Activate(IActivator activator)
     {
         if (Activators.Contains(activator)) return;
         Activators.Add(activator);
@@ -81,34 +83,17 @@ public class Device : MonoBehaviour
         }
     }
 
-    private List<Device> FindConnectedDevices()
+    private List<Wire> FindOutputWires()
     {
-        var list = new List<Device>();
-        foreach (var device in AdjacentDevices)
-        {
-            if(device == null) continue;
-            if(device.TryGetComponent<Cable>(out var cable))
-            {
-                if(cable.InputDevice == this)
-                    list.Add(device);
-            }
-            else if(device.TryGetComponent<CableJunction>(out var _))
-            {
-                list.Add(device);
-            }
-        }
-        return list;
-    }
-
-    private List<Device> FindAdjacentDevices()
-    {
-        var list = new List<Device>();
+        var list = new List<Wire>();
         var adjacentTiles = Tile.Map.GetSideAdjacentTiles(Tile.Position);
+
         foreach (var tile in adjacentTiles)
         {
-            if (tile.TryGetComponent<Device>(out var device))
+            if (tile.TryGetComponent<Cable>(out var cable))
             {
-                list.Add(device);
+                if (cable.GetInputTile() == Tile && !list.Contains(cable.Wire))
+                    list.Add(cable.Wire);
             }
         }
         return list;

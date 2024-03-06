@@ -30,7 +30,7 @@ public class Radar : MonoBehaviour
             if (angle > ViewAngle / 2f) continue;
             DetectedUnits.Add(unit);
         }
-        if (DetectedUnits.Count > 0) Device.ActivateOutputDevices();
-        if (DetectedUnits.Count == 0) Device.DeactivateOutputDevices();
+        if (DetectedUnits.Count > 0) Device.ActivateOutput();
+        if (DetectedUnits.Count == 0) Device.DeactivateOutput();
     }
 }

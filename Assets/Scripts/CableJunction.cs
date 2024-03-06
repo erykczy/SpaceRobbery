@@ -4,36 +4,64 @@ using UnityEngine;
 
 public class CableJunction : MonoBehaviour
 {
-    public Device Device { get; private set; }
+    public List<Device> AdjacentDevices = new();
+    public Device ThisDevice { get; private set; }
+    public Tile Tile { get; private set; }
 
     private void Awake()
     {
-        Device = GetComponent<Device>();
-        Device.WhenActivated.AddListener(OnActivated);
-        Device.WhenDeactivated.AddListener(OnDeactivated);
+        Tile = GetComponent<Tile>();
+        ThisDevice = GetComponent<Device>();
+        ThisDevice.WhenActivated.AddListener(OnActivated);
+        ThisDevice.WhenDeactivated.AddListener(OnDeactivated);
+    }
+
+    private void Start()
+    {
+        AdjacentDevices = FindAdjacentDevices();
     }
 
     private void OnActivated()
     {
-        foreach (var device in Device.AdjacentDevices)
+        ThisDevice.ActivateOutput();
+        foreach (var device in AdjacentDevices)
         {
-            if(device == null) continue;
-            if (device.TryGetComponent<Cable>(out var cable))
+            if (device == null)
             {
-                if (cable.InputDevice != Device)
-                    continue;
+                AdjacentDevices.Remove(device);
+                continue;
             }
-            if (Device.Activators.Contains(device)) continue;
-            Device.ActivateAnother(device);
+            if (ThisDevice.Activators.Contains(device)) continue;
+            device.Activate(ThisDevice);
         }
     }
 
     private void OnDeactivated()
     {
-        foreach (var device in Device.AdjacentDevices)
+        ThisDevice.DeactivateOutput();
+        foreach (var device in AdjacentDevices)
         {
-            if (device == null) continue;
-            Device.DeactivateAnother(device);
+            if (device == null)
+            {
+                AdjacentDevices.Remove(device);
+                continue;
+            }
+            device.Deactivate(ThisDevice);
         }
+    }
+
+    private List<Device> FindAdjacentDevices()
+    {
+        var list = new List<Device>();
+        var adjacentTiles = Tile.Map.GetSideAdjacentTiles(Tile.Position);
+
+        foreach (var tile in adjacentTiles)
+        {
+            if (tile.TryGetComponent<Device>(out var device))
+            {
+                list.Add(device);
+            }
+        }
+        return list;
     }
 }
